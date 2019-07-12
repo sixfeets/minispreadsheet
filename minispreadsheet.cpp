@@ -3,6 +3,7 @@
 #include<conio.h>
 #include<cstdlib>
 #include<cstring>
+#include<iomanip>
 using namespace std;
 
 class spreadsheet{
@@ -11,18 +12,20 @@ class spreadsheet{
 	public:
 		void baca(){
 			ifstream data;
-			string x;
 			data.open("datasheet.txt");
+			cout<<endl;
 			for(int i=0;i<10;i++){
 				for(int j=0;j<10;j++){
 					data>>sheet[i][j];
+					cout<<sheet[i][j]<<" ";
 				}
+				cout<<endl;
 			}
 			data.close();	
 		}
 		void tulis(){
 			ofstream file;
-			file.open("datasheet.txt");
+			file.open("datasheet.txt",ios::in);
 			for(int i=0;i<10;i++){
 				for(int j=0;j<10;j++){
 					file<<sheet[i][j]<<" ";
@@ -47,9 +50,6 @@ class spreadsheet{
 				newkol=konversi(kolom);
 				baris-=1;
 				newkol-=1;
-				cout<<baris<<endl;
-				cout<<kolom<<endl;
-				cout<<newkol<<endl;
 				if((newkol>=0 and newkol<=9) and (baris>=0 and baris<=9)){
 					int value;
 					if(x[x.size()-3]==','){
@@ -83,6 +83,18 @@ class spreadsheet{
 					cout<<"Input Tidak Valid"<<endl;
 				}
 			}
+			else if(x.substr(0,4)=="del("){
+				masukan=x.substr(5,6);
+				baris=atoi(masukan.c_str());
+				kolom=x[4];
+				newkol=konversi(kolom);
+				baris-=1;
+				newkol-=1;
+				if((newkol>=0 and newkol<=9) and (baris>=0 and baris<=9)){
+					sheet[baris][newkol]-=sheet[baris][newkol];
+					cout<<"DELETE"<<endl;
+				}
+			}
 			else{
 				cout<<"Input Salah"<<endl;
 			}
@@ -100,6 +112,7 @@ class spreadsheet{
 			switch(pil){
 				case 1:
 					baca();
+					cout<<endl;
 					cout<<"Tekan Y/y untuk kembali = ";cin>>a;
 					if(a=='Y' || a=='y'){
 						goto kembali;
