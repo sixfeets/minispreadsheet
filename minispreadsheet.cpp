@@ -1,44 +1,142 @@
 #include<iostream>
+#include<fstream>
+#include<conio.h>
+#include<cstdlib>
+#include<cstring>
 using namespace std;
 
-class sheet{
+class spreadsheet{
 	private:
-		int pil;
-		int spreadsheet[10][10];
+		int sheet[10][10];
 	public:
-		void menu();
-		void viewsheet();
+		void baca(){
+			ifstream data;
+			string x;
+			data.open("datasheet.txt");
+			for(int i=0;i<10;i++){
+				for(int j=0;j<10;j++){
+					data>>sheet[i][j];
+				}
+			}
+			data.close();	
+		}
+		void tulis(){
+			ofstream file;
+			file.open("datasheet.txt");
+			for(int i=0;i<10;i++){
+				for(int j=0;j<10;j++){
+					file<<sheet[i][j]<<" ";
+				}
+				file<<endl;
+			}
+			cout<<"Berhasil di Print"<<endl;
+			file.close();
+		}
+		int konversi(char x){
+			return (int)x-96;
+		}
+		void function(string x){
+			string masukan;
+			char kolom;
+			int baris;
+			int newkol,newkol1;
+			if(x.substr(0,4)=="set(" && x[x.size()-1]==')'){
+				masukan=x.substr(5,6);
+				baris=atoi(masukan.c_str());
+				kolom=x[4];
+				newkol=konversi(kolom);
+				baris-=1;
+				newkol-=1;
+				cout<<baris<<endl;
+				cout<<kolom<<endl;
+				cout<<newkol<<endl;
+				if((newkol>=0 and newkol<=9) and (baris>=0 and baris<=9)){
+					int value;
+					if(x[x.size()-3]==','){
+						masukan=x.substr(x.size()-2,x.size());
+						value=atoi(masukan.c_str());
+					}
+					else if(x[x.size()-4]==','){
+						masukan=x.substr(x.size()-3,x.size());
+						value=atoi(masukan.c_str());
+					}
+					else if(x[x.size()-5]==','){
+						masukan=x.substr(x.size()-4,x.size());
+						value=atoi(masukan.c_str());
+					}
+					else if(x[x.size()-6]==','){
+						masukan=x.substr(x.size()-5,x.size());
+						value=atoi(masukan.c_str());
+						if(value>999 or value<-999){
+							value=sheet[baris][newkol];
+							cout<<"Input Tidak Valid"<<endl;
+						}
+					}
+					else{
+						value=sheet[baris][newkol];
+						cout<<"Input Tidak Valid"<<endl;
+					}
+					sheet[baris][newkol]=value;
+					cout<<"["<<newkol<<","<<baris<<"] = "<<sheet[baris][newkol]<<endl;
+				}
+				else{
+					cout<<"Input Tidak Valid"<<endl;
+				}
+			}
+			else{
+				cout<<"Input Salah"<<endl;
+			}
+		}
+		void menu(){
+			kembali:
+			system("cls");
+			char a;	
+			int pil;
+			string perintah;
+			
+			cout<<"MINI SPREADSHEET V.0"<<endl;
+			cout<<"1. View Sheet\n2. Print Sheet\n3. Functions"<<endl;
+			cout<<"Masukan Pilihan = ";cin>>pil;
+			switch(pil){
+				case 1:
+					baca();
+					cout<<"Tekan Y/y untuk kembali = ";cin>>a;
+					if(a=='Y' || a=='y'){
+						goto kembali;
+					}
+					else{
+						system("cls");
+					}
+					break;
+				case 2:
+					tulis();
+					cout<<"Tekan Y/y untuk kembali = ";cin>>a;
+					if(a=='Y' || a=='y'){
+						goto kembali;
+					}
+					else{
+						system("cls");
+					}
+					break;
+				case 3:
+					cout<<"Masukan Perintah = ";cin>>perintah;
+					function(perintah);
+					tulis();
+					cout<<"Tekan Y/y untuk kembali = ";cin>>a;
+					if(a=='Y' || a=='y'){
+						goto kembali;
+					}
+					else{
+						system("cls");
+					}
+					break;
+			}
+		}
 };
 
-void sheet::menu(){
-	cout<<"Menu Spreadsheet V.0.1"<<endl;
-	cout<<"1. View Sheet\n2. Print Sheet\n3. Functions"<<endl;
-	cout<<"Masukan Pilihan = ";
-	cin>>pil;
-	if(pil==1){
-		viewsheet();
-	}
-}
-
-void sheet::viewsheet(){
-	cout<<" A B C D E F G H I J"<<endl;
-	
-	for(int i=0;i<10;i++){
-		cout<<i+1;
-		for(int j=0;j<10;j++){
-			spreadsheet[i][j]=0;
-			cout<<" "<<spreadsheet[i][j];
-		}
-		cout<<endl;
-	}
-}
-
 int main(){
-	sheet v;
-	
-	v.menu();
-	
-	
+	spreadsheet a;
+	a.menu();
 	
 	return 0;
 }
