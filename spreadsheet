@@ -10,10 +10,18 @@ class spreadsheet{
 	private:
 		int sheet[10][10];
 	public:
+		char konver(int x){
+			return (char)x+97;
+		}
 		void viewsheet(){
+			for(char i='A';i<'K';i++){
+				cout<<setw(6)<<i;
+			}
+			cout<<endl;
 			for(int i=0;i<10;i++){
+				cout<<i+1;
 				for(int j=0;j<10;j++){
-					cout<<sheet[i][j]<<" ";
+					cout<<setw(5)<<sheet[i][j]<<" ";
 				}
 				cout<<endl;
 			}
@@ -38,67 +46,352 @@ class spreadsheet{
 				}
 				file<<endl;
 			}
-			cout<<"Berhasil di Print"<<endl;
 			file.close();
 		}
 		int konversi(char x){
 			return (int)x-96;
 		}
-		void function(string x){
+		void pencarian(int a[10][10], int kunci){
+			for(int i=0;i<10;i++){
+				for(int j=0;j<10;j++){
+					if(a[i][j]==kunci){
+						cout<<"["<<konver(j)<<i+1<<"] "<<"Ketemu"<<endl;;
+					}					
+				}
+			}
+		}
+		void minimumbaris(int a[10][10], char n){
+			int baris,kolom;
+			int haha;
+			haha=konversi(n);
+			haha+=95;
+			int min=a[haha][0];
+			for(int i=0;i<10;i++){
+				if(a[haha][i]<=min){
+					min=a[haha][i];
+					baris=haha;
+					kolom=i;
+				}
+			}
+			cout<<"Terkecil = "<<a[baris][kolom]<<endl;
+		}
+		void minimumkolom(int a[10][10], int n){
+			int baris=0,kolom=0;
+			n-=1;
+			int min=a[0][n];
+			for(int i=0;i<10;i++){
+				if(a[i][n]<=min){
+					min=a[i][n];
+					baris=i;
+					kolom=n;
+				}
+			}
+			cout<<"Terkecil = "<<a[baris][kolom]<<endl;
+					
+		}
+		void makbaris(int a[10][10], char n){
+			int baris,kolom;
+			int haha;
+			haha=konversi(n);
+			haha+=95;
+			int min=a[haha][0];
+			for(int i=0;i<10;i++){
+				if(a[haha][i]>=min){
+					min=a[haha][i];
+					baris=haha;
+					kolom=i;
+				}
+			}
+			cout<<"Terbesar = "<<a[baris][kolom]<<endl;
+		}
+		void makkolom(int a[10][10], int n){
+			int baris=0,kolom=0;
+			n-=1;
+			int min=a[0][n];
+			for(int i=0;i<10;i++){
+				if(a[i][n]>=min){
+					min=a[i][n];
+					baris=i;
+					kolom=n;
+				}
+			}
+			cout<<"Terbesar = "<<a[baris][kolom]<<endl;
+					
+		}
+		void tukar (int *a, int *b){
+			int temp;
+			temp = *a;
+			*a = *b;
+			*b = temp;
+		}
+		void cetak_kolom(const int a[10][10], int n){
+			for(int i=0;i<10;i++){
+				cout<<a[i][n]<<" ";
+			}
+			cout<<endl;
+		}
+		void cetak_baris(const int a[10][10],int n){
+			for(int i=0;i<10;i++){
+				cout<<a[n][i]<<" ";
+			}
+			cout<<endl;
+		}
+		void asckolom(int a[10][10], int x){
+			cout<<"Not Ascending"<<endl;
+			cetak_kolom(a,x);
+			cout<<endl;
+			for(int i=0;i<10-1;i++)
+			for(int j=i+1;j<10;j++)
+			if(a[i][x]>a[j][x]) tukar(&a[i][x],&a[j][x]);
+			cout<<"Ascending"<<endl;
+			cetak_kolom(a,x);
+		}
+		void ascbaris(int a[10][10],int x){
+			cout<<"Not Ascending"<<endl;
+			cetak_baris(a,x);
+			cout<<endl;
+			for(int i=0;i<10-1;i++)
+			for(int j=i+1;j<10;j++)
+			if(a[x][i]>a[x][j]) tukar(&a[x][i],&a[x][j]);
+			cout<<"Ascending"<<endl;
+			cetak_baris(a,x);
+		}
+		void deskolom(int a[10][10], int x){
+			cout<<"Not Descending"<<endl;
+			cetak_kolom(a,x);
+			cout<<endl;
+			for(int i=0;i<10-1;i++)
+			for(int j=i+1;j<10;j++)
+			if(a[i][x]<a[j][x]) tukar(&a[i][x],&a[j][x]);
+			cout<<"Descending"<<endl;
+			cetak_kolom(a,x);
+		}
+		void desbaris(int a[10][10],int x){
+			cout<<"Not Descending"<<endl;
+			cetak_baris(a,x);
+			cout<<endl;
+			for(int i=0;i<10-1;i++)
+			for(int j=i+1;j<10;j++)
+			if(a[x][i]<a[x][j]) tukar(&a[x][i],&a[x][j]);
+			cout<<"Descending"<<endl;
+			cetak_baris(a,x);
+		}
+		void ratakolom(int a[10][10],int x){
+			int jumlah=0;
+			for(int i=0;i<10;i++){
+				jumlah+=a[i][x];
+			}
+			cout<<endl;
+			cout<<"Rata-Rata = "<<(float)jumlah/10<<endl;
+			cout<<endl;
+		}
+		void ratabaris(int a[10][10],int x){
+			int jumlah=0;
+			for(int j=0;j<10;j++){
+				jumlah+=a[x][j];
+			}
+			cout<<endl;
+			cout<<"Rata-Rata = "<<(float)jumlah/10<<endl;
+			cout<<endl;
+		}
+		void function(string a){
 			string masukan;
 			char kolom;
-			int baris;
-			int newkol,newkol1;
-			if(x.substr(0,4)=="set(" && x[x.size()-1]==')'){
-				masukan=x.substr(5,6);
+			int baris=0;
+			int kolbar=0;
+			if(a.substr(0,4)=="set(" && a[a.size()-1]==')'){
+				masukan=a.substr(5,6);
 				baris=atoi(masukan.c_str());
-				kolom=x[4];
-				newkol=konversi(kolom);
+				kolom=a[4];
+				kolbar=konversi(kolom);
 				baris-=1;
-				newkol-=1;
-				if((newkol>=0 and newkol<=9) and (baris>=0 and baris<=9)){
+				kolbar-=1;
+				if((kolbar>=0 and kolbar<=9) and (baris>=0 and baris<=9)){
 					int value;
-					if(x[x.size()-3]==','){
-						masukan=x.substr(x.size()-2,x.size());
+					if(a[a.size()-3]==','){
+						masukan=a.substr(a.size()-2,a.size());
 						value=atoi(masukan.c_str());
 					}
-					else if(x[x.size()-4]==','){
-						masukan=x.substr(x.size()-3,x.size());
+					else if(a[a.size()-4]==','){
+						masukan=a.substr(a.size()-3,a.size());
 						value=atoi(masukan.c_str());
 					}
-					else if(x[x.size()-5]==','){
-						masukan=x.substr(x.size()-4,x.size());
+					else if(a[a.size()-5]==','){
+						masukan=a.substr(a.size()-4,a.size());
 						value=atoi(masukan.c_str());
 					}
-					else if(x[x.size()-6]==','){
-						masukan=x.substr(x.size()-5,x.size());
+					else if(a[a.size()-6]==','){
+						masukan=a.substr(a.size()-5,a.size());
 						value=atoi(masukan.c_str());
-						if(value>999 or value<-999){
-							value=sheet[baris][newkol];
-							cout<<"Input Tidak Valid"<<endl;
-						}
 					}
 					else{
-						value=sheet[baris][newkol];
+						value=sheet[baris][kolbar];
 						cout<<"Input Tidak Valid"<<endl;
 					}
-					sheet[baris][newkol]=value;
-					cout<<"["<<newkol<<","<<baris<<"] = "<<sheet[baris][newkol]<<endl;
+					sheet[baris][kolbar]=value;
+					cout<<"["<<kolom<<baris+1<<"] = "<<sheet[baris][kolbar]<<endl;
 				}
 				else{
 					cout<<"Input Tidak Valid"<<endl;
 				}
 			}
-			else if(x.substr(0,4)=="del("){
-				masukan=x.substr(5,6);
+			else if(a.substr(0,4)=="del(" && a[a.size()-1]==')'){
+				masukan=a.substr(5,6);
 				baris=atoi(masukan.c_str());
-				kolom=x[4];
-				newkol=konversi(kolom);
+				kolom=a[4];
+				kolbar=konversi(kolom);
 				baris-=1;
-				newkol-=1;
-				if((newkol>=0 and newkol<=9) and (baris>=0 and baris<=9)){
-					sheet[baris][newkol]-=sheet[baris][newkol];
+				kolbar-=1;
+				if((kolbar>=0 and kolbar<=9) and (baris>=0 and baris<=9)){
+					sheet[baris][kolbar]-=sheet[baris][kolbar];
 					cout<<"DELETE"<<endl;
+				}
+			}
+			else if(a.substr(0,7)=="search(" && a[a.size()-1]==')'){
+				int nilai;
+				if(a[a.size()-2]=='('){
+					masukan=a.substr(a.size()-1,a.size());
+					nilai=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-3]=='('){
+					masukan=a.substr(a.size()-2,a.size());
+					nilai=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-4]=='('){
+					masukan=a.substr(a.size()-3,a.size());
+					nilai=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-5]=='('){
+					masukan=a.substr(a.size()-4,a.size());
+					nilai=atoi(masukan.c_str());
+				}
+				pencarian(sheet,nilai);
+			}
+			else if(a.substr(0,4)=="min(" && a[a.size()-1]==')'){
+				char barkol;
+				barkol=a[4];
+				if(barkol=='a' or barkol=='b' or barkol=='c' or barkol=='d' or barkol=='e' or barkol=='f' or barkol=='g' or barkol=='h' or barkol=='i' or barkol=='j'){
+					int barkol1;
+					barkol1=konversi(barkol);
+					minimumkolom(sheet,barkol1);
+				}
+				
+				if(a[a.size()-2]=='('){
+					masukan=a.substr(a.size()-1,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-3]=='('){
+					masukan=a.substr(a.size()-2,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-4]=='('){
+					masukan=a.substr(a.size()-3,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				
+				if(baris==1 or baris==2 or baris==3 or baris==4 or baris==5 or baris==6 or baris==7 or baris==8 or baris==9 or baris==10){
+					minimumbaris(sheet,baris);
+				}
+			}
+			else if(a.substr(0,4)=="max(" && a[a.size()-1]==')'){
+				char barkol;
+				barkol=a[4];
+				if(barkol=='a' or barkol=='b' or barkol=='c' or barkol=='d' or barkol=='e' or barkol=='f' or barkol=='g' or barkol=='h' or barkol=='i' or barkol=='j'){
+					int barkol1;
+					barkol1=konversi(barkol);
+					makkolom(sheet,barkol1);
+				}
+				
+				if(a[a.size()-2]=='('){
+					masukan=a.substr(a.size()-1,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-3]=='('){
+					masukan=a.substr(a.size()-2,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-4]=='('){
+					masukan=a.substr(a.size()-3,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				
+				if(baris==1 or baris==2 or baris==3 or baris==4 or baris==5 or baris==6 or baris==7 or baris==8 or baris==9 or baris==10){
+					makbaris(sheet,baris);
+				}
+			}
+			else if(a.substr(0,5)=="sort(" && a[a.size()-1]==')'){
+				char kol;
+				char asdes;
+				int bar;
+				kol=a[5];
+				asdes=a[a.size()-2];
+				if(asdes=='1'){
+					if(kol=='a' or kol=='b' or kol=='c' or kol=='d' or kol=='e' or kol=='f' or kol=='g' or kol=='h' or kol=='i' or kol=='j'){
+						kolbar=konversi(kol);
+						kolbar-=1;
+						asckolom(sheet,kolbar);
+					}
+					
+					if(a[a.size()-5]=='('){
+						masukan=a.substr(a.size()-4,a.size());
+						baris=atoi(masukan.c_str());
+					}
+					else if(a[a.size()-6]=='('){
+						masukan=a.substr(a.size()-5,a.size());
+						baris=atoi(masukan.c_str());
+					}
+					
+					
+					if(baris==1 or baris==2 or baris==3 or baris==4 or baris==5 or baris==6 or baris==7 or baris==8 or baris==9 or baris==10){
+						bar=baris-1;
+						ascbaris(sheet,bar);
+					}	
+				}
+				else if(asdes=='0'){
+					if(kol=='a' or kol=='b' or kol=='c' or kol=='d' or kol=='e' or kol=='f' or kol=='g' or kol=='h' or kol=='i' or kol=='j'){
+						kolbar=konversi(kol);
+						kolbar-=1;
+						deskolom(sheet,kolbar);
+					}
+					
+					if(a[a.size()-5]=='('){
+						masukan=a.substr(a.size()-4,a.size());
+						baris=atoi(masukan.c_str());
+					}
+					else if(a[a.size()-6]=='('){
+						masukan=a.substr(a.size()-5,a.size());
+						baris=atoi(masukan.c_str());
+					}
+					
+					
+					if(baris==1 or baris==2 or baris==3 or baris==4 or baris==5 or baris==6 or baris==7 or baris==8 or baris==9 or baris==10){
+						bar=baris-1;
+						desbaris(sheet,bar);
+					}
+				}	
+			}
+			else if(a.substr(0,5)=="mean(" && a[a.size()-1]==')'){
+				char kol;
+				kol=a[5];
+				
+				if(kol=='a' or kol=='b' or kol=='c' or kol=='d' or kol=='e' or kol=='f' or kol=='g' or kol=='h' or kol=='i' or kol=='j'){
+					int kol1=konversi(kol);
+					kol1-=1;
+					ratakolom(sheet,kol1);
+				}
+				
+				if(a[a.size()-3]=='('){
+					masukan=a.substr(a.size()-2,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				else if(a[a.size()-4]=='('){
+					masukan=a.substr(a.size()-3,a.size());
+					baris=atoi(masukan.c_str());
+				}
+				
+				if(baris==1 or baris==2 or baris==3 or baris==4 or baris==5 or baris==6 or baris==7 or baris==8 or baris==9 or baris==10){
+					baris-=1;
+					ratabaris(sheet,baris);
 				}
 			}
 			else{
@@ -113,11 +406,12 @@ class spreadsheet{
 			string perintah;
 			
 			cout<<"MINI SPREADSHEET V.0"<<endl;
-			cout<<"1. View Sheet\n2. Print Sheet\n3. Functions"<<endl;
+			cout<<"\n1. View Sheet\n2. Print Sheet\n3. Functions"<<endl;
 			baca();
 			cout<<"Masukan Pilihan = ";cin>>pil;
 			switch(pil){
 				case 1:
+					cout<<endl;
 					viewsheet();
 					baca();
 					cout<<endl;
@@ -131,6 +425,7 @@ class spreadsheet{
 					break;
 				case 2:
 					tulis();
+					cout<<"Berhasil di Print"<<endl;
 					cout<<"Tekan Y/y untuk kembali = ";cin>>a;
 					if(a=='Y' || a=='y'){
 						goto kembali;
@@ -151,11 +446,14 @@ class spreadsheet{
 						system("cls");
 					}
 					break;
+				default:
+					cout<<"Input Salah"<<endl;
+					break;
 			}
 		}
 };
 
-int main(){
+int main(int argc, char *argv[]){
 	spreadsheet a;
 	a.menu();
 	
